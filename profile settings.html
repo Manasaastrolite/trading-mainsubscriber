@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile Settings</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+ body {
+  font-family: 'Roboto', sans-serif;
+  background-color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.table-banner {
+  background-image: linear-gradient(to right, #5563d9, #4e54c8);
+  color: white;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  margin-top: 30px;
+}
+
+.banner-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.banner-title {
+  font-weight: bold;
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+
+.banner-subtitle {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  background-color: transparent;
+  border-radius: 12px;
+  padding: 30px;
+}
+
+h2 {
+  font-size: 26px;
+  font-weight: 600;
+  color: blue;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-section {
+  margin-bottom: 30px;
+}
+
+.form-section h3 {
+  font-size: 20px;
+  color: blue;
+  margin-bottom: 20px;
+}
+
+.profile-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -30px;
+  background:transparent;
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile {
+  width: 80px;
+  height: 80px;
+  background-color: #e0e0e0;
+  border: 3px solid #4c6ef5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #777;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+}
+
+.profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-name {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+}
+
+.profile-email {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #666;
+}
+
+#fileInput {
+  display: none;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #4a5568;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 95%;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+.form-group input[type="file"] {
+  padding: 6px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #3182ce;
+  box-shadow: 0 0 5px rgba(50, 130, 206, 0.3);
+}
+
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.form-footer button {
+  width: 48%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.form-footer button:hover {
+  transform: scale(1.05);
+}
+
+.form-footer .save-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.form-footer .cancel-btn {
+  background-color: #f4c1c1;
+  color: #333;
+}
+
+.error-message {
+  color: #e53e3e;
+  font-size: 12px;
+  margin-top: 4px;
+  display: none;
+}
+
+.input-error {
+  border-color: #e53e3e !important;
+}
+
+@media (max-width: 600px) {
+  .container {
+    margin: 20px;
+    padding: 20px;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: white transparent;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Header Banner -->
+  <div class="table-banner">
+    <div class="banner-text">
+      <div class="banner-title">PROFILE SETTINGS</div>
+      <div class="banner-subtitle">Manage your account preferences</div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+
+    <h2>User Profile</h2>
+
+    <!-- Profile Preview (Sidebar Simulation) -->
+    <div class="profile-preview">
+        <div class="profile" id="profilePage" onclick="document.getElementById('fileInput').click();">
+            👤
+          </div>
+          <input type="file" id="fileInput" accept="image/*" onchange="uploadImage(event)">
+      <div id="preview-name" class="profile-name">User Name</div>
+      <div id="preview-email" class="profile-email">user@example.com</div>
+    </div>
+
+    <div class="form-section">
+      <form id="profileForm" action="#" method="POST" enctype="multipart/form-data" novalidate>
+
+        <!-- Profile Picture -->
+        
+
+        <!-- First Name -->
+        <div class="form-group">
+          <label for="first-name">First Name</label>
+          <input type="text" id="first-name" name="first-name" placeholder="Enter first name" required>
+          <div id="first-name-error" class="error-message">Only letters. Must start with a letter. No space or period at the start.</div>
+        </div>
+
+        <!-- Last Name -->
+        <div class="form-group">
+          <label for="last-name">Last Name</label>
+          <input type="text" id="last-name" name="last-name" placeholder="Enter last name" required>
+          <div id="last-name-error" class="error-message">Only letters. Must start with a letter. No space or period at the start.</div>
+        </div>
+
+        <!-- Email Address -->
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="Enter email address" required>
+          <div id="email-error" class="error-message">Please enter a valid email address.</div>
+        </div>
+
+        <!-- Additional Email -->
+        <div class="form-group">
+          <label for="additional-email">Additional Email</label>
+          <input type="email" id="additional-email" name="additional-email" placeholder="Enter additional email">
+          <div id="additional-email-error" class="error-message">Please enter a valid email address.</div>
+          <button type="button" style="margin-top: 10px; padding: 5px 10px; background-color: #5563d9; color: white; border: none; border-radius: 4px; cursor: pointer;">+ Add Email Address</button>
+        </div>
+
+        <!-- Mobile Number -->
+        <div class="form-group">
+          <label for="phone">Mobile Number</label>
+          <input type="text" id="phone" name="phone" placeholder="Enter mobile number" required>
+          <div id="phone-error" class="error-message">Must be 10 digits and start with 6, 7, 8, or 9.</div>
+        </div>
+
+        <!-- Place -->
+        <div class="form-group">
+          <label for="place">Place</label>
+          <input type="text" id="place" name="place" placeholder="Enter your location" required>
+          <div id="place-error" class="error-message">Please enter your location.</div>
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="form-group">
+          <label for="dob">D-O-B</label>
+          <input type="date" id="dob" name="dob" required>
+          <div id="dob-error" class="error-message">Please enter a valid date of birth.</div>
+        </div>
+
+        <!-- Gender -->
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender" required>
+            <option value="" selected disabled>Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+          <div id="gender-error" class="error-message">Please select your gender.</div>
+        </div>
+
+        <!-- Password Section -->
+        <div class="form-section">
+          <h3>Change Password</h3>
+
+          <div class="form-group">
+            <label for="current-password">Current Password</label>
+            <input type="password" id="current-password" name="current-password" placeholder="Enter current password" required>
+            <div id="current-password-error" class="error-message">Please enter your current password.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="new-password">New Password</label>
+            <input type="password" id="new-password" name="new-password" placeholder="Enter new password" required>
+            <div id="new-password-error" class="error-message">Password must be at least 8 characters with at least one letter and one number.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirm-password">Confirm New Password</label>
+            <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm new password" required>
+            <div id="confirm-password-error" class="error-message">Passwords do not match.</div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-footer">
+          <button type="submit" class="save-btn">Save Changes</button>
+          <button type="button" class="cancel-btn" onclick="window.location.href='profile.html'">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Function to handle profile picture change
+    // Function to upload and store image
+function uploadImage(event) {
+  const file = event.target.files[0];
+  const profile = document.getElementById('profilePage');
+
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const imageDataUrl = e.target.result;
+      // Set image to the profile
+      profile.innerHTML = `<img src="${imageDataUrl}" alt="Profile Image">`;
+      // Store image in localStorage
+      localStorage.setItem('profileImage', imageDataUrl);
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+// Function to load image from localStorage when page loads
+window.onload = function() {
+  const savedImage = localStorage.getItem('profileImage');
+  const profile = document.getElementById('profilePage');
+
+  if (savedImage) {
+    profile.innerHTML = `<img src="${savedImage}" alt="Profile Image">`;
+  }
+};
+
+
+    // Function to update preview name when first or last name changes
+    document.getElementById('first-name').addEventListener('input', updatePreviewName);
+    document.getElementById('last-name').addEventListener('input', updatePreviewName);
+    
+    function updatePreviewName() {
+      const firstName = document.getElementById('first-name').value;
+      const lastName = document.getElementById('last-name').value;
+      document.getElementById('preview-name').textContent = firstName && lastName ? firstName + ' ' + lastName : 
+                                                            firstName ? firstName : 
+                                                            lastName ? lastName : 'User Name';
+    }
+
+    // Function to update preview email when email changes
+    document.getElementById('email').addEventListener('input', function() {
+      document.getElementById('preview-email').textContent = this.value || 'user@example.com';
+    });
+
+    // Form validation
+    document.getElementById('profileForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (validateForm()) {
+        alert('Form submitted successfully!');
+        // Here you would typically submit the form to the server
+      }
+    });
+
+    function validateForm() {
+      let isValid = true;
+      
+      // First Name validation
+      const firstName = document.getElementById('first-name');
+      const firstNameError = document.getElementById('first-name-error');
+      if (!firstName.value.trim() || !/^[a-zA-Z][a-zA-Z]*$/.test(firstName.value)) {
+        firstName.classList.add('input-error');
+        firstNameError.style.display = 'block';
+        isValid = false;
+      } else {
+        firstName.classList.remove('input-error');
+        firstNameError.style.display = 'none';
+      }
+      
+      // Last Name validation
+      const lastName = document.getElementById('last-name');
+      const lastNameError = document.getElementById('last-name-error');
+      if (!lastName.value.trim() || !/^[a-zA-Z][a-zA-Z]*$/.test(lastName.value)) {
+        lastName.classList.add('input-error');
+        lastNameError.style.display = 'block';
+        isValid = false;
+      } else {
+        lastName.classList.remove('input-error');
+        lastNameError.style.display = 'none';
+      }
+      
+      // Email validation
+      const email = document.getElementById('email');
+      const emailError = document.getElementById('email-error');
+      if (!email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+        email.classList.add('input-error');
+        emailError.style.display = 'block';
+        isValid = false;
+      } else {
+        email.classList.remove('input-error');
+        emailError.style.display = 'none';
+      }
+      
+      // Additional Email validation (if provided)
+      const additionalEmail = document.getElementById('additional-email');
+      const additionalEmailError = document.getElementById('additional-email-error');
+      if (additionalEmail.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(additionalEmail.value)) {
+        additionalEmail.classList.add('input-error');
+        additionalEmailError.style.display = 'block';
+        isValid = false;
+      } else {
+        additionalEmail.classList.remove('input-error');
+        additionalEmailError.style.display = 'none';
+      }
+      
+      // Phone validation
+      const phone = document.getElementById('phone');
+      const phoneError = document.getElementById('phone-error');
+      if (!phone.value.trim() || !/^[6-9]\d{9}$/.test(phone.value)) {
+        phone.classList.add('input-error');
+        phoneError.style.display = 'block';
+        isValid = false;
+      } else {
+        phone.classList.remove('input-error');
+        phoneError.style.display = 'none';
+      }
+      
+      // Place validation
+      const place = document.getElementById('place');
+      const placeError = document.getElementById('place-error');
+      if (!place.value.trim()) {
+        place.classList.add('input-error');
+        placeError.style.display = 'block';
+        isValid = false;
+      } else {
+        place.classList.remove('input-error');
+        placeError.style.display = 'none';
+      }
+      
+      // Date of Birth validation
+      const dob = document.getElementById('dob');
+      const dobError = document.getElementById('dob-error');
+      if (!dob.value) {
+        dob.classList.add('input-error');
+        dobError.style.display = 'block';
+        isValid = false;
+      } else {
+        dob.classList.remove('input-error');
+        dobError.style.display = 'none';
+      }
+      
+      // Gender validation
+      const gender = document.getElementById('gender');
+      const genderError = document.getElementById('gender-error');
+      if (!gender.value) {
+        gender.classList.add('input-error');
+        genderError.style.display = 'block';
+        isValid = false;
+      } else {
+        gender.classList.remove('input-error');
+        genderError.style.display = 'none';
+      }
+      
+      // Password validation
+      const currentPassword = document.getElementById('current-password');
+      const currentPasswordError = document.getElementById('current-password-error');
+      if (!currentPassword.value) {
+        currentPassword.classList.add('input-error');
+        currentPasswordError.style.display = 'block';
+        isValid = false;
+      } else {
+        currentPassword.classList.remove('input-error');
+        currentPasswordError.style.display = 'none';
+      }
+      
+      const newPassword = document.getElementById('new-password');
+      const newPasswordError = document.getElementById('new-password-error');
+      if (newPassword.value && !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(newPassword.value)) {
+        newPassword.classList.add('input-error');
+        newPasswordError.style.display = 'block';
+        isValid = false;
+      } else {
+        newPassword.classList.remove('input-error');
+        newPasswordError.style.display = 'none';
+      }
+      
+      const confirmPassword = document.getElementById('confirm-password');
+      const confirmPasswordError = document.getElementById('confirm-password-error');
+      if (newPassword.value && confirmPassword.value !== newPassword.value) {
+        confirmPassword.classList.add('input-error');
+        confirmPasswordError.style.display = 'block';
+        isValid = false;
+      } else {
+        confirmPassword.classList.remove('input-error');
+        confirmPasswordError.style.display = 'none';
+      }
+      
+      return isValid;
+    }
+
+    // Add event listeners to validate fields on input
+    document.querySelectorAll('input, select').forEach(function(element) {
+      element.addEventListener('input', function() {
+        validateField(this);
+      });
+      element.addEventListener('blur', function() {
+        validateField(this);
+      });
+    });
+
+    function validateField(field) {
+      const id = field.id;
+      const value = field.value;
+      const errorElement = document.getElementById(id + '-error');
+      
+      switch(id) {
+        case 'first-name':
+        case 'last-name':
+          if (!value.trim() || !/^[a-zA-Z][a-zA-Z]*$/.test(value)) {
+            field.classList.add('input-error');
+            errorElement.style.display = 'block';
+          } else {
+            field.classList.remove('input-error');
+            errorElement.style.display = 'none';
+          }
+          break;
+          
+        case 'email':
+        case 'additional-email':
+          if ((id === 'email' || value.trim()) && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            field.classList.add('input-error');
+            errorElement.style.display = 'block';
+          } else {
+            field.classList.remove('input-error');
+            errorElement.style.display = 'none';
+          }
+          break;
+          
+        case 'phone':
+          if (!value.trim() || !/^[6-9]\d{9}$/.test(value)) {
+            field.classList.add('input-error');
+            errorElement.style.display = 'block';
+          } else {
+            field.classList.remove('input-error');
+            errorElement.style.display = 'none';
+          }
+          break;
+          
+        case 'place':
+        case 'gender':
+        case 'dob':
+        case 'current-password':
+          if (!value.trim()) {
+            field.classList.add('input-error');
+            errorElement.style.display = 'block';
+          } else {
+            field.classList.remove('input-error');
+            errorElement.style.display = 'none';
+          }
+          break;
+          
+        case 'new-password':
+          if (value && !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(value)) {
+            field.classList.add('input-error');
+            errorElement.style.display = 'block';
+          } else {
+            field.classList.remove('input-error');
+            errorElement.style.display = 'none';
+            
+            // Also check confirm password
+            const confirmPassword = document.getElementById('confirm-password');
+            const confirmPasswordError = document.getElementById('confirm-password-error');
+            if (confirmPassword.value && confirmPassword.value !== value) {
+              confirmPassword.classList.add('input-error');
+              confirmPasswordError.style.display = 'block';
+            } else {
+              confirmPassword.classList.remove('input-error');
+              confirmPasswordError.style.display = 'none';
+            }
+          }
+          break;
+          
+        case 'confirm-password':
+          const newPasswordValue = document.getElementById('new-password').value;
+          if (value !== newPasswordValue) {
+            field.classList.add('input-error');
+            errorElement.style.display = 'block';
+          } else {
+            field.classList.remove('input-error');
+            errorElement.style.display = 'none';
+          }
+          break;
+      }
+    }
+  </script>
+
+</body>
+</html>
