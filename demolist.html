@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Demo List Table with Icons</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: white;
+            padding: 20px;
+        }
+
+        .table-banner {
+            background-color: #5563d9;
+            background-image: linear-gradient(to right, #5563d9, #4e54c8);
+            text-align: center;
+            height: 80px;
+            padding: 15px 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            border-radius: 5px 5px 0 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .table-banner i {
+            margin-right: 15px;
+            color: white;
+            font-size: 1.4rem;
+        }
+
+        .banner-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            padding-right: 30px;
+        }
+
+        .banner-title {
+            font-weight: bold;
+            font-size: 30px;
+            line-height: 1.2;
+            margin-bottom: 5px;
+        }
+
+        .banner-subtitle {
+            font-size: 0.8rem;
+            font-weight: normal;
+            opacity: 0.8;
+            color: white;
+        }
+
+        .table-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 0 10px;
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            margin-right: 15px;
+        }
+
+        .search-bar input[type="text"] {
+            width: 40%;
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar input[type="text"]:focus {
+            outline: none;
+            box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);
+        }
+        .search-icon {
+            position: absolute;
+            right: 652px;
+            color: black;
+            padding-top: 10px;
+        }
+
+        .add-new-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-new-button:hover {
+            background-color: #45a049;
+        }
+
+        .table-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #1a237e;
+            color: white;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .action-icon {
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .view-icon {
+            color: #2196F3;
+        }
+
+        .edit-icon {
+            color: #4CAF50;
+        }
+
+        .delete-icon {
+            color: #F44336;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: transparent;
+            margin: 10% auto;
+            width: 80%;
+            max-width: 700px;
+            animation: modalopen 0.3s;
+        }
+
+        @keyframes modalopen {
+            from {opacity: 0}
+            to {opacity: 1}
+        }
+
+        .detail-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            background-color: #ff6f00;
+            color: white;
+            padding: 15px;
+            position: relative;
+        }
+
+        .card-header h3 {
+            margin: 0;
+        }
+
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 15px;
+            top: 10px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .detail-section {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .detail-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section-title {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 8px;
+        }
+
+        .detail-label {
+            width: 140px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            flex: 1;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        select.form-control {
+            height: 38px;
+        }
+
+        .form-submit {
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            margin-left: 559px;
+        }
+
+        .form-submit:hover {
+            background-color: #303f9f;
+        }
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: white;
+            border-radius: 6px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: white transparent;
+        }
+    </style>
+</head>
+<body>
+    <div class="table-container">
+        <div class="table-header">
+            <div class="table-banner">
+                <div class="banner-text">
+                    <div class="banner-title">DEMO LIST</div>
+                    <div class="banner-subtitle">View and manage demo onboarding data</div>
+                </div>
+            </div>
+        <div class="table-controls">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchTable()">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            <button class="add-new-button" onclick="showAddForm()">
+                <i class="fas fa-plus"></i> Add New</button>
+        </div>
+
+        <table id="subscriptionTable">
+            <thead>
+                <tr>
+                    <th style="width: 10%">S.No</th>
+                    <th style="width: 10%">Name</th>
+                    <th style="width: 10%">Date</th>
+                    <th style="width: 10%">TV ID</th>
+                    <th style="width: 10%">Ref.ID</th>
+                    <th style="width: 10%">Subscription</th>
+                    <th style="width: 10%">Exp.Date</th>
+                    <th style="width: 10%">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+
+        <div id="detailsModal" class="modal">
+            <div class="modal-content">
+                <div class="detail-card">
+                    <div class="card-header">
+                        <span class="close" onclick="closeModal('detailsModal')">&times;</span>
+                        <h3 id="modalTitle">Subscription Details</h3>
+                    </div>
+                    <div class="card-body" id="modalContent">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="addModal" class="modal">
+            <div class="modal-content">
+                <div class="detail-card">
+                    <div class="card-header">
+                        <span class="close" onclick="closeModal('addModal')">&times;</span>
+                        <h3>Add New Subscription</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="addForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" id="name" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="date">Date</label>
+                                    <input type="date" id="date" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="tvId">TV ID</label>
+                                    <input type="text" id="tvId" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="refId">Reference ID</label>
+                                    <input type="text" id="refId" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="subscription">Subscription Type</label>
+                                    <select id="subscription" class="form-control" required>
+                                        <option value="">Select Type</option>
+                                        <option value="Basic">Basic</option>
+                                        <option value="Standard">Standard</option>
+                                        <option value="Premium">Premium</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="expiryDate">Expiry Date</label>
+                                    <input type="date" id="expiryDate" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone</label>
+                                    <input type="tel" id="phone" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" id="address" class="form-control" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="paymentMethod">Payment Method</label>
+                                    <select id="paymentMethod" class="form-control" required>
+                                        <option value="">Select Method</option>
+                                        <option value="Credit Card">Credit Card</option>
+                                        <option value="UPI">UPI</option>
+                                        <option value="Net Banking">Net Banking</option>
+                                        <option value="Paytm">Paytm</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastPayment">Last Payment Date</label>
+                                    <input type="date" id="lastPayment" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="notes">Notes</label>
+                                <textarea id="notes" class="form-control" rows="3"></textarea>
+                            </div>
+
+                            <button type="submit" class="form-submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <div class="detail-card">
+                    <div class="card-header">
+                        <span class="close" onclick="closeModal('editModal')">&times;</span>
+                        <h3>Edit Subscription</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="editForm">
+                            <input type="hidden" id="editId">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="editName">Name</label>
+                                    <input type="text" id="editName" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editDate">Date</label>
+                                    <input type="date" id="editDate" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="editTvId">TV ID</label>
+                                    <input type="text" id="editTvId" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editRefId">Reference ID</label>
+                                    <input type="text" id="editRefId" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="editSubscription">Subscription Type</label>
+                                    <select id="editSubscription" class="form-control" required>
+                                        <option value="">Select Type</option>
+                                        <option value="Basic">Basic</option>
+                                        <option value="Standard">Standard</option>
+                                        <option value="Premium">Premium</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editExpiryDate">Expiry Date</label>
+                                    <input type="date" id="editExpiryDate" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="editEmail">Email</label>
+                                    <input type="email" id="editEmail" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editPhone">Phone</label>
+                                    <input type="tel" id="editPhone" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editAddress">Address</label>
+                                <input type="text" id="editAddress" class="form-control" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="editPaymentMethod">Payment Method</label>
+                                    <select id="editPaymentMethod" class="form-control" required>
+                                        <option value="">Select Method</option>
+                                        <option value="Credit Card">Credit Card</option>
+                                        <option value="UPI">UPI</option>
+                                        <option value="Net Banking">Net Banking</option>
+                                        <option value="Paytm">Paytm</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editLastPayment">Last Payment Date</label>
+                                    <input type="date" id="editLastPayment" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editNotes">Notes</label>
+                                <textarea id="editNotes" class="form-control" rows="3"></textarea>
+                            </div>
+
+                            <button type="submit" class="form-submit">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        let subscriptions = [
+            {
+                id: 1,
+                name: "Rajesh",
+                date: "24-04-20",
+                tvId: "TV4582",
+                refId: "REF7890",
+                subscription: "Premium",
+                expiryDate: "2025-04-19",
+                email: "rajesh.kumar@gmail.com",
+                phone: "+91 98765 43210",
+                address: "123, Sector 18, Koramangala, Bangalore - 560034",
+                paymentMethod: "UPI",
+                lastPayment: "25-03-19",
+                nextPayment: "2025-04-19",
+                notes: "Prefers WhatsApp notifications"
+            },
+            {
+                id: 2,
+                name: "Priya",
+                date: "24-04-20",
+                tvId: "TV2345",
+                refId: "REF4567",
+                subscription: "Standard",
+                expiryDate: "2025-03-25",
+                email: "priya.sharma@yahoo.com",
+                phone: "+91 87654 32109",
+                address: "45B, Patel Nagar, New Delhi - 110008",
+                paymentMethod: "Paytm",
+                lastPayment: "2025-02-25",
+                nextPayment: "2025-03-25",
+                notes: "Requested upgrade to Premium package"
+            },
+            {
+                id: 3,
+                name: "Ananya",
+                date: "24-04-21",
+                tvId: "TV4572",
+                refId: "REF7856",
+                subscription: "Premium",
+                expiryDate: "2025-04-22",
+                email: "ananya.patel@hotmail.com",
+                phone: "+91 76543 21098",
+                address: "78, Jubilee Hills, Hyderabad - 500033",
+                paymentMethod: "Credit Card",
+                lastPayment: "2025-03-22",
+                nextPayment: "2025-04-22",
+                notes: "Has multiple TV connections"
+            },
+            {
+                id: 4,
+                name: "Vikram",
+                date: "24-04-21",
+                tvId: "TV4534",
+                refId: "REF7890",
+                subscription: "Premium",
+                expiryDate: "2025-06-19",
+                email: "vikram.singh@outlook.com",
+                phone: "+91 65432 10987",
+                address: "201, Marine Drive, Mumbai - 400020",
+                paymentMethod: "Net Banking",
+                lastPayment: "2025-03-19",
+                nextPayment: "2025-04-19",
+                notes: "Annual subscription plan"
+            },
+            {
+                id: 5,
+                name: "Meera",
+                date: "24-04-22",
+                tvId: "TV4523",
+                refId: "REF7823",
+                subscription: "Premium",
+                expiryDate: "2025-03-19",
+                email: "meera.iyer@gmail.com",
+                phone: "+91 54321 09876",
+                address: "56, Anna Nagar, Chennai - 600040",
+                paymentMethod: "UPI",
+                lastPayment: "2025-02-19",
+                nextPayment: "2025-03-19",
+                notes: "Renewal pending"
+            }
+        ];
+
+        const tableBody = document.getElementById("tableBody");
+        const searchInput = document.getElementById("searchInput");
+        const addForm = document.getElementById("addForm");
+        const editForm = document.getElementById("editForm");
+    
+        let nextId = subscriptions.length + 1;
+    
+        function renderTable(data) {
+            tableBody.innerHTML = "";
+            if (data.length === 0) {
+                const row = tableBody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 8; // Adjust based on your table columns
+                cell.classList.add("no-data");
+
+                    // Create an image element
+                    const noDataImage = document.createElement('img');
+                    noDataImage.src = 'nodata.avif'; // Replace with the actual URL of your image
+            
+                    noDataImage.style.maxWidth = '400px';
+                    noDataImage.style.height = '300px'; // Adjust image size as needed
+                    noDataImage.style.display = 'block';
+
+                    noDataImage.style.margin = '-13px auto'; // Center the image
+
+
+                    // Append the image and text to the cell
+                    cell.appendChild(noDataImage);
+                    cell.appendChild(textContainer);
+
+                             return;
+                       }
+            data.forEach(sub => {
+                const row = tableBody.insertRow();
+                row.insertCell().textContent = sub.id;
+                row.insertCell().textContent = sub.name;
+                row.insertCell().textContent = sub.date;
+                row.insertCell().textContent = sub.tvId;
+                row.insertCell().textContent = sub.refId;
+                row.insertCell().textContent = sub.subscription;
+                row.insertCell().textContent = sub.expiryDate;
+                const actionsCell = row.insertCell();
+                actionsCell.classList.add("actions");
+                actionsCell.innerHTML = `
+                    <i class="fas fa-eye action-icon view-icon" onclick="showDetails(${sub.id})"></i>
+                    <i class="fas fa-edit action-icon edit-icon" onclick="showEditForm(${sub.id})"></i>
+                    <i class="fas fa-trash action-icon delete-icon" onclick="showDeleteAlert(${sub.id})"></i>
+                `;
+            });
+        }
+
+        function searchTable() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredData = subscriptions.filter(sub =>
+                Object.values(sub).some(val =>
+                    String(val).toLowerCase().includes(searchTerm)
+                )
+            );
+            renderTable(filteredData);
+        }
+
+        searchInput.addEventListener("input", searchTable);
+
+        function showDetails(id) {
+            const subscription = subscriptions.find(sub => sub.id === id);
+            if (!subscription) return;
+
+            document.getElementById("modalTitle").textContent = subscription.name;
+            document.getElementById("modalContent").innerHTML = `
+                <div class="detail-section">
+                    <div class="section-title">Subscription Info</div>
+                    <div class="detail-row"><div class="detail-label">Subscription Type:</div><div class="detail-value">${subscription.subscription}</div></div>
+                    <div class="detail-row"><div class="detail-label">Date:</div><div class="detail-value">${subscription.date}</div></div>
+                    <div class="detail-row"><div class="detail-label">TV ID:</div><div class="detail-value">${subscription.tvId}</div></div>
+                    <div class="detail-row"><div class="detail-label">Reference ID:</div><div class="detail-value">${subscription.refId}</div></div>
+                    <div class="detail-row"><div class="detail-label">Expiry Date:</div><div class="detail-value">${subscription.expiryDate}</div></div>
+                </div>
+                <div class="detail-section">
+                    <div class="section-title">Contact Information</div>
+                    <div class="detail-row"><div class="detail-label">Email:</div><div class="detail-value">${subscription.email}</div></div>
+                    <div class="detail-row"><div class="detail-label">Phone:</div><div class="detail-value">${subscription.phone}</div></div>
+                    <div class="detail-row"><div class="detail-label">Address:</div><div class="detail-value">${subscription.address}</div></div>
+                </div>
+                <div class="detail-section">
+                    <div class="section-title">Payment Details</div>
+                    <div class="detail-row"><div class="detail-label">Payment Method:</div><div class="detail-value">${subscription.paymentMethod}</div></div>
+                    <div class="detail-row"><div class="detail-label">Last Payment:</div><div class="detail-value">${subscription.lastPayment}</div></div>
+                </div>
+                <div class="detail-section">
+                    <div class="section-title">Notes</div>
+                    <div class="detail-row"><div class="detail-value">${subscription.notes}</div></div>
+                </div>
+            `;
+
+            document.getElementById("detailsModal").style.display = "block";
+        }
+
+        function showEditForm(id) {
+            const subscription = subscriptions.find(sub => sub.id === id);
+            if (!subscription) return;
+
+            document.getElementById("editId").value = subscription.id;
+            document.getElementById("editName").value = subscription.name;
+            document.getElementById("editDate").value = subscription.date;
+            document.getElementById("editTvId").value = subscription.tvId;
+            document.getElementById("editRefId").value = subscription.refId;
+            document.getElementById("editSubscription").value = subscription.subscription;
+            document.getElementById("editExpiryDate").value = subscription.expiryDate;
+            document.getElementById("editEmail").value = subscription.email;
+            document.getElementById("editPhone").value = subscription.phone;
+            document.getElementById("editAddress").value = subscription.address;
+            document.getElementById("editPaymentMethod").value = subscription.paymentMethod;
+            document.getElementById("editLastPayment").value = subscription.lastPayment;
+            document.getElementById("editNotes").value = subscription.notes;
+
+            document.getElementById("editModal").style.display = "block";
+        }
+
+        function showAddForm() {
+            document.getElementById("addModal").style.display = "block";
+            addForm.reset();
+        }
+
+        function showDeleteAlert(id) {
+            const subscription = subscriptions.find(sub => sub.id === id);
+            if (subscription && confirm(`Are you sure you want to delete ${subscription.name}?`)) {
+                subscriptions = subscriptions.filter(sub => sub.id !== id);
+                renderTable(subscriptions);
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        addForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            const newSubscription = {
+                id: nextId++,
+                name: document.getElementById("name").value,
+                date: document.getElementById("date").value,
+                tvId: document.getElementById("tvId").value,
+                refId: document.getElementById("refId").value,
+                subscription: document.getElementById("subscription").value,
+                expiryDate: document.getElementById("expiryDate").value,
+                email: document.getElementById("email").value,
+                phone: document.getElementById("phone").value,
+                address: document.getElementById("address").value,
+                paymentMethod: document.getElementById("paymentMethod").value,
+                lastPayment: document.getElementById("lastPayment").value,
+                notes: document.getElementById("notes").value
+            };
+            subscriptions.push(newSubscription);
+            renderTable(subscriptions);
+            closeModal("addModal");
+        });
+
+        editForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            const id = parseInt(document.getElementById("editId").value);
+            const subscriptionIndex = subscriptions.findIndex(sub => sub.id === id);
+            if (subscriptionIndex !== -1) {
+                subscriptions[subscriptionIndex] = {
+                    id: id,
+                    name: document.getElementById("editName").value,
+                    date: document.getElementById("editDate").value,
+                    tvId: document.getElementById("editTvId").value,
+                    refId: document.getElementById("editRefId").value,
+                    subscription: document.getElementById("editSubscription").value,
+                    expiryDate: document.getElementById("editExpiryDate").value,
+                    email: document.getElementById("editEmail").value,
+                    phone: document.getElementById("editPhone").value,
+                    address: document.getElementById("editAddress").value,
+                    paymentMethod: document.getElementById("editPaymentMethod").value,
+                    lastPayment: document.getElementById("editLastPayment").value,
+                    notes: document.getElementById("editNotes").value
+                };
+                renderTable(subscriptions);
+                closeModal("editModal");
+            }
+        });
+
+        renderTable(subscriptions);
+
+        // Form validation functions
+function validateInput(input, validationFn, errorMsg) {
+    const errorElement = document.createElement('span');
+    errorElement.className = 'error-message';
+    errorElement.style.color = 'red';
+    errorElement.style.fontSize = '12px';
+    errorElement.style.display = 'block';
+    
+    // Remove any existing error message
+    const existingError = input.parentNode.querySelector('.error-message');
+    if (existingError) {
+        input.parentNode.removeChild(existingError);
+    }
+    
+    const isValid = validationFn(input.value);
+    
+    if (!isValid) {
+        errorElement.textContent = errorMsg;
+        input.parentNode.appendChild(errorElement);
+        input.style.borderColor = 'red';
+        return false;
+    } else {
+        input.style.borderColor = 'green';
+        return true;
+    }
+}
+
+// Validation rules
+const validators = {
+    id: (value) => /^\d+$/.test(value),
+    name: (value) => /^[A-Za-z][A-Za-z\s]*$/.test(value) && !/^\s/.test(value) && !/\s$/.test(value) && !/\.$/.test(value),
+    date: (value) => {
+        const inputDate = new Date(value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return inputDate >= today;
+    },
+    email: (value) => {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
+        return emailRegex.test(value);
+    },
+    phone: (value) => /^[6-9]\d{9}$/.test(value),
+    required: (value) => value.trim() !== '',
+    tvId: (value) => /^TV\d{4}$/.test(value),
+    refId: (value) => /^REF\d{4}$/.test(value),
+    expiryDate: (value) => {
+        const inputDate = new Date(value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return inputDate >= today;
+    },
+    address: (value) => value.trim().length >= 10
+};
+
+// Error messages
+const errorMessages = {
+    id: "ID must contain only numbers",
+    name: "Name must start with a letter and contain only letters and spaces. No spaces or periods at start/end.",
+    date: "Date cannot be in the past",
+    email: "Invalid email format. Domain extension must be 2-3 characters.",
+    phone: "Phone number must start with 6, 7, 8, or 9 and be exactly 10 digits",
+    required: "This field is required",
+    tvId: "TV ID must be in format TV followed by 4 digits",
+    refId: "Reference ID must be in format REF followed by 4 digits",
+    expiryDate: "Expiry date must be in the future",
+    address: "Address must be at least 10 characters long"
+};
+
+// Add validation to all forms
+function setupValidation() {
+    // Add Form
+    setupFormValidation('addForm', 'name', ['name', 'required']);
+    setupFormValidation('addForm', 'date', ['date', 'required']);
+    setupFormValidation('addForm', 'tvId', ['tvId', 'required']);
+    setupFormValidation('addForm', 'refId', ['refId', 'required']);
+    setupFormValidation('addForm', 'subscription', ['required']);
+    setupFormValidation('addForm', 'expiryDate', ['expiryDate', 'required']);
+    setupFormValidation('addForm', 'email', ['email', 'required']);
+    setupFormValidation('addForm', 'phone', ['phone', 'required']);
+    setupFormValidation('addForm', 'address', ['address', 'required']);
+    setupFormValidation('addForm', 'paymentMethod', ['required']);
+    setupFormValidation('addForm', 'lastPayment', ['required']);
+    
+    // Edit Form
+    setupFormValidation('editForm', 'editName', ['name', 'required']);
+    setupFormValidation('editForm', 'editDate', ['date', 'required']);
+    setupFormValidation('editForm', 'editTvId', ['tvId', 'required']);
+    setupFormValidation('editForm', 'editRefId', ['refId', 'required']);
+    setupFormValidation('editForm', 'editSubscription', ['required']);
+    setupFormValidation('editForm', 'editExpiryDate', ['expiryDate', 'required']);
+    setupFormValidation('editForm', 'editEmail', ['email', 'required']);
+    setupFormValidation('editForm', 'editPhone', ['phone', 'required']);
+    setupFormValidation('editForm', 'editAddress', ['address', 'required']);
+    setupFormValidation('editForm', 'editPaymentMethod', ['required']);
+    setupFormValidation('editForm', 'editLastPayment', ['required']);
+}
+
+function setupFormValidation(formId, inputId, validationTypes) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    
+    input.addEventListener('input', function() {
+        let isValid = true;
+        for (const type of validationTypes) {
+            isValid = validateInput(
+                input, 
+                validators[type], 
+                errorMessages[type]
+            ) && isValid;
+            if (!isValid) break;
+        }
+    });
+}
+
+// Form submission validation
+function validateForm(formId) {
+    const form = document.getElementById(formId);
+    const inputs = form.querySelectorAll('input, select, textarea');
+    let isFormValid = true;
+    
+    inputs.forEach(input => {
+        if (input.id) {
+            // Determine which validations to apply based on field name
+            let validationTypes = ['required']; // Default validation
+            
+            if (input.id.includes('name') || input.id.includes('Name')) {
+                validationTypes.push('name');
+            } else if (input.id.includes('date') || input.id.includes('Date')) {
+                validationTypes.push('date');
+            } else if (input.id.includes('email') || input.id.includes('Email')) {
+                validationTypes.push('email');
+            } else if (input.id.includes('phone') || input.id.includes('Phone')) {
+                validationTypes.push('phone');
+            } else if (input.id.includes('tvId') || input.id.includes('TvId')) {
+                validationTypes.push('tvId');
+            } else if (input.id.includes('refId') || input.id.includes('RefId')) {
+                validationTypes.push('refId');
+            } else if (input.id.includes('address') || input.id.includes('Address')) {
+                validationTypes.push('address');
+            } else if (input.id.includes('expiry') || input.id.includes('Expiry')) {
+                validationTypes.push('expiryDate');
+            }
+            
+            // Apply all validations
+            for (const type of validationTypes) {
+                if (validators[type]) {
+                    const valid = validateInput(
+                        input, 
+                        validators[type], 
+                        errorMessages[type]
+                    );
+                    isFormValid = isFormValid && valid;
+                }
+            }
+        }
+    });
+    
+    return isFormValid;
+}
+
+// Modify the form submit event listeners to use validation
+document.addEventListener('DOMContentLoaded', function() {
+    setupValidation();
+    
+    // Update addForm submit handler
+    const addForm = document.getElementById('addForm');
+    if (addForm) {
+        addForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (validateForm('addForm')) {
+                const newSubscription = {
+                    id: nextId++,
+                    name: document.getElementById('name').value,
+                    date: document.getElementById('date').value,
+                    tvId: document.getElementById('tvId').value,
+                    refId: document.getElementById('refId').value,
+                    subscription: document.getElementById('subscription').value,
+                    expiryDate: document.getElementById('expiryDate').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    address: document.getElementById('address').value,
+                    paymentMethod: document.getElementById('paymentMethod').value,
+                    lastPayment: document.getElementById('lastPayment').value,
+                    nextPayment: document.getElementById('expiryDate').value, // Default to expiry date
+                    notes: document.getElementById('notes').value
+                };
+                subscriptions.push(newSubscription);
+                renderTable(subscriptions);
+                closeModal('addModal');
+            }
+        });
+    }
+    
+    // Update editForm submit handler
+    const editForm = document.getElementById('editForm');
+    if (editForm) {
+        editForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (validateForm('editForm')) {
+                const id = parseInt(document.getElementById('editId').value);
+                const subscriptionIndex = subscriptions.findIndex(sub => sub.id === id);
+                if (subscriptionIndex !== -1) {
+                    subscriptions[subscriptionIndex] = {
+                        id: id,
+                        name: document.getElementById('editName').value,
+                        date: document.getElementById('editDate').value,
+                        tvId: document.getElementById('editTvId').value,
+                        refId: document.getElementById('editRefId').value,
+                        subscription: document.getElementById('editSubscription').value,
+                        expiryDate: document.getElementById('editExpiryDate').value,
+                        email: document.getElementById('editEmail').value,
+                        phone: document.getElementById('editPhone').value,
+                        address: document.getElementById('editAddress').value,
+                        paymentMethod: document.getElementById('editPaymentMethod').value,
+                        lastPayment: document.getElementById('editLastPayment').value,
+                        nextPayment: document.getElementById('editExpiryDate').value, // Default to expiry date
+                        notes: document.getElementById('editNotes').value
+                    };
+                    renderTable(subscriptions);
+                    closeModal('editModal');
+                }
+            }
+        });
+    }
+});
+    </script>
+</body>
+</html>
